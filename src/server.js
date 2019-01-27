@@ -31,12 +31,6 @@ api.use(bodyParser.json());
 // 	})
 // );
 
-// api.use((err, req, res, next) => {
-// 	if (err.name === 'UnauthorizedError') {
-// 		res.status(401).send('Missing authentication credentials.');
-// 	}
-// });
-
 // api.use(
 // 	expressWinston.logger({
 // 		transports: [
@@ -49,6 +43,13 @@ api.use(bodyParser.json());
 // 		meta: true
 // 	})
 // );
+
+// ERROR middleware - should be always the last one
+// api.use((err, req, res, next) => {
+// 	if (err.name === 'UnauthorizedError') {
+// 		res.status(401).send('Missing authentication credentials.');
+// 	}
+// });
 
 api.get('/', (req, res) => {
 	res.send('SmartCafe API v0.1');
