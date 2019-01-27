@@ -1,0 +1,29 @@
+{
+	"name": "smart-cafe-api",
+	"version": "0.1.0",
+	"description": "SmartCafe API",
+	"main": "server.js",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"compression": "^1.7.3",
+		"cors": "^2.8.5",
+		"dotenv": "^6.2.0",
+		"express": "^4.16.4",
+		"express-jwt": "^5.3.1",
+		"express-winston": "^3.0.1",
+		"winston": "^3.1.0"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.2.3",
+		"@babel/core": "^7.2.2",
+		"@babel/node": "^7.2.2",
+		"@babel/preset-env": "^7.3.1",
+		"@babel/preset-typescript": "^7.1.0"
+	},
+	"scripts": {
+		"watch": "nodemon --exec babel-node server.js"
+	},
+	"keywords": [],
+	"author": "Darko Milutinovic (DARCO SOLUTIONS)",
+	"license": "ISC"
+}
