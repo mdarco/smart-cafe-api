@@ -1,9 +1,9 @@
-import User from '../controllers/user';
+const UserController = require('../controllers/user');
 
 module.exports = api => {
-	api.route('/users').get(User.list);
-	api.route('/users/:userId').get(User.get);
-	api.route('/users/:userId').put(User.put);
-	api.route('/users/').post(User.post);
-	api.route('/users/:userId').delete(User.delete);
+	api.route('/users').get(UserController.getAllUsers);
+	//api.route('/users/:userId').get(UserController.getUser);
+	//api.route('/users/:userId').put(UserController.editUser);
+	api.route('/users/').post(UserController.addUser);
+	//api.route('/users/:userId').delete(UserController.deleteUser);
 };

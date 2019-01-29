@@ -1,13 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const winston = require('winston');
-const compression = require('compression');
-const expressWinston = require('express-winston');
-// const winstonPapertrail = require('winston-papertrail');
-const jwt = require('express-jwt');
+const fs 				= require('fs');
+const path 				= require('path');
+const express 			= require('express');
+const bodyParser 		= require('body-parser');
+const cors 				= require('cors');
+const winston 			= require('winston');
+const compression 		= require('compression');
+const expressWinston 	= require('express-winston');
+const jwt 				= require('express-jwt');
 
 const config = require('./config');
 // import logger from './utils/logger';
@@ -57,21 +56,20 @@ api.get('/', (req, res) => {
 
 api.listen(config.server.port, err => {
 	if (err) {
-		// logger.error(err);
+		console.error('There was an error while starting the server:');
+		console.error(err);
 		process.exit(1);
 	}
 
 	console.log(`API is now running on port ${config.server.port} in ${config.env} mode...`);
 
-// 	require('./utils/db');
+	// establish DB connection
+	require('./utils/db');
 
-// 	fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
-// 		require('./routes/' + file)(api);
-// 	});
-
-// 	logger.info(
-// 		`API is now running on port ${config.server.port} in ${config.env} mode`
-// 	);
+	// activate all routes
+	fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
+		require('./routes/' + file)(api);
+	});
 });
 
 module.exports = api;

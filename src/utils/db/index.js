@@ -1,29 +1,19 @@
-import mongoose from 'mongoose';
+const mongoose 	= require('mongoose');
+const config 	= require('../../config');
 
-import config from '../../config';
-import logger from '../logger';
-
-mongoose.Promise = global.Promise;
-
-const connection = mongoose.connect(config.database.uri);
-
-connection
+let connection = mongoose.connect(config.database.uri, { useNewUrlParser: true })
 	.then(db => {
-		logger.info(
-			`Successfully connected to ${config.database.uri} MongoDB cluster in ${
-				config.env
-			} mode.`,
-		);
+		console.log('Successfully connected to DB.');
 		return db;
 	})
 	.catch(err => {
 		if (err.message.code === 'ETIMEDOUT') {
-			logger.info('Attempting to re-establish database connection.');
+			console.log('Attempting to re-establish DB connection.');
 			mongoose.connect(config.database.uri);
 		} else {
-			logger.error('Error while attempting to connect to database:');
-			logger.error(err);
+			console.error('Error while attempting to connect to DB:');
+			console.error(err);
 		}
 	});
 
-export default connection;
+module.exports = connection;
