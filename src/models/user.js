@@ -3,7 +3,7 @@ const mongooseBcrypt 	= require('mongoose-bcrypt');
 const mongooseTimestamp = require('mongoose-timestamp');
 
 const UserSchema = new mongoose.Schema({
-	code: { type: String, trim: true, index: true, unique: true, required: true },
+	code: { type: String, trim: true },
 	fullName: { type: String, trim: true, required: true },
 	username: { type: String, trim: true, index: true, unique: true, required: true },
 	password: { type: String, required: true, bcrypt: true },

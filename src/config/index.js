@@ -12,30 +12,26 @@ module.exports = {
 
 		seed: {
 			productCategories: {
-				add: true,
-				delete: true
-			},
-			productSubCategories: {
 				add: false,
 				delete: false
 			},
+
 			products: {
 				add: false,
 				delete: false
 			},
+
 			orders: {
 				add: false,
 				delete: false
 			},
+
 			tables: {
 				add: false,
 				delete: false
 			},
-			userGroups: {
-				add: true,
-				delete: true
-			},
-			users: {
+			
+			usersAndGroups: {
 				add: false,
 				delete: false
 			}
@@ -47,6 +43,7 @@ module.exports = {
 				{ name: 'Hrana' },
 				{ name: 'Cigarete' }
 			],
+
 			productSubCategories: [
 				{ name: 'Topli napici', category: 'Piće' },
 				{ name: 'Bezalkoholna pića', category: 'Piće' },
@@ -61,11 +58,13 @@ module.exports = {
 				{ name: 'Marlboro', category: 'Cigarete' },
 				{ name: 'Pall Mall', category: 'Cigarete' }
 			],
+
 			userGroups: [
 				{ name: 'ADMIN' },
 				{ name: 'KONOBAR' },
 				{ name: 'MENADZER' }
 			],
+
 			users: [
 				{ 
 					fullName: 'Darko Milutinović',

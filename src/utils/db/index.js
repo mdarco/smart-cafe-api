@@ -1,14 +1,19 @@
 const mongoose 	= require('mongoose');
 const config 	= require('../../config');
-const UserModel = require('../../models/user');
+const User 		= require('../../models/user');
 
 let connection = mongoose.connect(config.database.uri, { useNewUrlParser: true })
 	.then(db => {
 		console.log('Successfully connected to DB.');
 
 		// seed DB
-		require('../seed/product-categories')();
-		require('../seed/user-groups')();
+		if (config.database.seed && config.database.seed.productCategories) {
+			require('../seed/product-categories')();
+		}
+
+		if (config.database.seed && config.database.seed.usersAndGroups) {
+			require('../seed/users-and-groups')();
+		}
 
 		return db;
 	})
