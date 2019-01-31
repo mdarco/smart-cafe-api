@@ -4,7 +4,7 @@
 	"description": "SmartCafe API",
 	"main": "server.js",
 	"dependencies": {
-		"bcrypt": "^3.0.3",
+		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.18.3",
 		"compression": "^1.7.3",
 		"cors": "^2.8.5",
@@ -12,6 +12,7 @@
 		"express": "^4.16.4",
 		"express-jwt": "^5.3.1",
 		"express-winston": "^3.0.1",
+		"factory-girl": "^5.0.4",
 		"http-status": "^1.3.1",
 		"mongoose": "^5.4.7",
 		"mongoose-bcrypt": "^1.6.0",
@@ -33,7 +34,7 @@
 		"@babel/preset-typescript": "^7.1.0"
 	},
 	"scripts": {
-		"serve": "nodemon server.js"
+		"serve": "clear && nodemon server.js"
 	},
 	"keywords": [],
 	"author": "Darko Milutinovic (DARCO SOLUTIONS)",

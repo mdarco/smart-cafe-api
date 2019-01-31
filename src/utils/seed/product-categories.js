@@ -1,5 +1,5 @@
-const { ProductCategory, ProductSubCategory } = require('../../models/product-categories');
-const config    = require('../../config');
+const { ProductCategory, ProductSubCategory }   = require('../../models/product-categories');
+const config                                    = require('../../config');
 
 module.exports = async () => {
     if (config.database.seed && config.database.seed.productCategories && config.database.seed.productCategories.delete) {

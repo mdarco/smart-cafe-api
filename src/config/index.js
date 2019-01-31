@@ -59,6 +59,12 @@ module.exports = {
 				{ name: 'Pall Mall', category: 'Cigarete' }
 			],
 
+			tables: [
+				{ tag: 'Sto br. 2', description: 'Sto za pušače' },
+				{ tag: 'Sto br. 3', description: 'Sto za ručak' },
+				{ tag: 'Sto br. 1', description: 'Sto za nepušače' }
+			],
+
 			userGroups: [
 				{ name: 'ADMIN' },
 				{ name: 'KONOBAR' },
