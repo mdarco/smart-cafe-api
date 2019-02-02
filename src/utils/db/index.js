@@ -23,6 +23,10 @@ let connection = mongoose.connect(config.database.uri, { useNewUrlParser: true, 
 			require('../seed/products')();
 		}
 
+		if (config.database.seed && config.database.seed.orders) {
+			require('../seed/orders')();
+		}
+
 		return db;
 	})
 	.catch(err => {

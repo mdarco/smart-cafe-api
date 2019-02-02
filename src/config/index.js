@@ -22,8 +22,8 @@ module.exports = {
 			},
 
 			orders: {
-				add: false,
-				delete: false
+				add: true,
+				delete: true
 			},
 
 			tables: {
