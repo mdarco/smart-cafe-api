@@ -1,6 +1,6 @@
-const validator 	= require('validator');
-const httpStatus 	= require('http-status');
-const UserModel 	= require('../models/user');
+const validator = require('validator');
+const httpStatus = require('http-status');
+const User = require('../models/user');
 
 exports.getAllUsers = (req, res) => {
 	UserModel.find({}).exec(

@@ -1,6 +1,6 @@
-const mongoose 			        = require('mongoose');
-const mongooseTimestamp         = require('mongoose-timestamp');
-const { ProductSubCategory }    = require('../models/product-categories');
+const mongoose = require('mongoose');
+const mongooseTimestamp = require('mongoose-timestamp');
+const { ProductSubCategory } = require('../models/product-categories');
 
 const ProductSchema = new mongoose.Schema({
     name: { type: String, unique: true, required: true },

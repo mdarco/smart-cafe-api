@@ -3,10 +3,9 @@ const path 				= require('path');
 const express 			= require('express');
 const bodyParser 		= require('body-parser');
 const cors 				= require('cors');
-const winston 			= require('winston');
+// const winston 			= require('winston');
 const compression 		= require('compression');
-const expressWinston 	= require('express-winston');
-const jwt 				= require('express-jwt');
+// const expressWinston 	= require('express-winston');
 
 const config = require('./config');
 // import logger from './utils/logger';
@@ -17,6 +16,8 @@ api.use(cors());
 api.use(compression());
 api.use(bodyParser.urlencoded({ extended: true }));
 api.use(bodyParser.json());
+
+require('dotenv').config({ path: './.env' });
 
 // api.use(
 // 	jwt({ secret: config.jwt.secret }).unless({

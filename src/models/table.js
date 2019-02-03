@@ -1,4 +1,4 @@
-const mongoose 			= require('mongoose');
+const mongoose = require('mongoose');
 const mongooseTimestamp = require('mongoose-timestamp');
 
 const TableSchema = new mongoose.Schema({
