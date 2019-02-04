@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 const User = require('../models/user');
 
 exports.getAllUsers = (req, res) => {
-	UserModel.find({}).exec(
+	UserModel.find({}).sort({ fullName: 1 }).exec(
 		(err, users) => {
 			if (err) {
 				console.error(err);

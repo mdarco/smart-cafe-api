@@ -4,7 +4,7 @@ const Table = require('../models/table');
 
 exports.getAllTables = async (req, res) => {
     try {
-        const tables = await Table.find({});
+        const tables = await Table.find({}).sort({ tag: 1 });
         res.status(httpStatus.OK).json(tables);
     } catch(err) {
         console.log(err);
