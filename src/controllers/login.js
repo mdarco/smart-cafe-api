@@ -5,7 +5,8 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.login = async (req, res) => {
-    const credentials = Object.assign({}, req.body) || null;
+  const credentials = Object.assign({}, req.body) || null;
+  // console.log('CREDENTIALS:', credentials);
 	if (!credentials) {
 		console.log('Tried to login with nonexisting credentials.');
 		res.status(httpStatus.NO_CONTENT).send('Tried to login with nonexisting credentials.');
@@ -16,9 +17,12 @@ exports.login = async (req, res) => {
             }).populate('userGroups').exec();
 
             if (!user) {
-                res.status(httpStatus.UNAUTHORIZED).send('Credentials do not match.');
+                res.status(httpStatus.UNAUTHORIZED).send('User not found.');
             } else {
-                const isMatch = await bcrypt.compare(credentials.password, user.password);
+                // decode base64 password
+                let decodedPass = Buffer.from(credentials.password, 'base64').toString('utf8');
+
+                const isMatch = await bcrypt.compare(decodedPass, user.password);
                 if (!isMatch) {
                     res.status(httpStatus.UNAUTHORIZED).send('Credentials do not match.');
                 } else {
@@ -28,16 +32,19 @@ exports.login = async (req, res) => {
                         fullname: user.fullName,
                         userGroups: user.userGroups
                     };
-                
+
                     // set jwt exp date and sign token
                     const token =jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
                     console.log('TOKEN', token);
-                    res.status(httpStatus.OK).send('Bearer ' + token);
+                    res.status(httpStatus.OK).json({
+                        isAuthenticated: true,
+                        token
+                    });
                 }
             }
         } catch(err) {
             console.error(err);
-			res.status(httpStatus.UNAUTHORIZED).send(err);
+			      res.status(httpStatus.UNAUTHORIZED).send(err);
         }
 	}
 };
