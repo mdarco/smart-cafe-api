@@ -15,11 +15,15 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductList = async (req, res) => {
     try {
-        let productList = {};
+        let productList = [];
         const categories = await ProductCategory.find({}, '_id name').sort({ name: 1 });
         for (let i = 0; i <= categories.length - 1; i++) {
             const products = await Product.find({ categoryId: categories[i] }, '_id name decription subCategoryId allergens priceWithVAT isRecommended isPromo').populate('subCategoryId').sort({ 'subCategoryId.name': 1 });
-            productList[categories[i]] = products;
+            
+            let item = {};
+            item.category = categories[i].name;
+            item.products = products;
+            productList.push(item);
         }
         
         res.status(httpStatus.OK).json(productList);
