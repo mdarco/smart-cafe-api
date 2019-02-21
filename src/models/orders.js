@@ -3,7 +3,8 @@ const mongooseTimestamp = require('mongoose-timestamp');
 
 const OrderItemSchema = new mongoose.Schema({
     quantity: { type: Number, required: true },
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    note: { type: String }
 });
 
 const OrderSchema = new mongoose.Schema({
