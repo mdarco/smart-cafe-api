@@ -64,7 +64,7 @@ exports.addUser = (req, res) => {
 		res.status(httpStatus.NO_CONTENT).send('Tried to create empty user.');
 	} else {
 		User.create(data)
-			.then(user => { res.json(user); })
+			.then(user => { res.status(httpStatus.OK).json(user); })
 			.catch(err => {
 				console.error(err);
 				res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);

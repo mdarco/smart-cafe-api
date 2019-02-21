@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const mongooseTimestamp = require('mongoose-timestamp');
 
 const OrderItemSchema = new mongoose.Schema({
-    quantity: { type: Number, required: true },
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    quantity: { type: Number, required: true },
+    isDelivered: { type: Boolean, required: true },
     note: { type: String }
 });
 
