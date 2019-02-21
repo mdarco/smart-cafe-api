@@ -1,16 +1,17 @@
-const fs 				= require('fs');
-const path 				= require('path');
-const express 			= require('express');
-const bodyParser 		= require('body-parser');
-const cors 				= require('cors');
-// const winston 			= require('winston');
-const compression 		= require('compression');
-// const expressWinston 	= require('express-winston');
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+// const winston = require('winston');
+const compression = require('compression');
+// const expressWinston	= require('express-winston');
 
 const config = require('./config');
 // import logger from './utils/logger';
 
 const api = express();
+const io = require('socket.io')(require('http').Server(api));
 
 api.use(cors());
 api.use(compression());
@@ -50,6 +51,9 @@ require('dotenv').config({ path: './.env' });
 // 		res.status(401).send('Missing authentication credentials.');
 // 	}
 // });
+
+// configure socket.io
+require('./socket-io')(io);
 
 api.get('/', (req, res) => {
 	res.send('SmartCafe API v0.1');
