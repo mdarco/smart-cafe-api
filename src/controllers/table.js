@@ -12,7 +12,7 @@ exports.getAllTables = async (req, res) => {
     }
 };
 
-exports.updateTable = async (req, res) {
+exports.updateTable = async (req, res) => {
     const tableId = req.params.tableId;
     if (!tableId) {
         console.log('No tableId supplied.');
