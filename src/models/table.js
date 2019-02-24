@@ -4,6 +4,7 @@ const mongooseTimestamp = require('mongoose-timestamp');
 const TableSchema = new mongoose.Schema({
     tag: { type: String, unique: true, required: true },
     description: { type: String, trim: true },
+    deviceId: { type: String }, // used to tie the table to the device used on the table
     isInUse: { type: Boolean }
 }, { collection: 'tables' });
 
