@@ -3,7 +3,8 @@ const mongooseTimestamp = require('mongoose-timestamp');
 
 const TableSchema = new mongoose.Schema({
     tag: { type: String, unique: true, required: true },
-    description: { type: String, trim: true }
+    description: { type: String, trim: true },
+    isInUse: { type: Boolean }
 }, { collection: 'tables' });
 
 TableSchema.plugin(mongooseTimestamp);
