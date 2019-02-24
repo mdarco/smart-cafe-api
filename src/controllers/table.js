@@ -11,3 +11,20 @@ exports.getAllTables = async (req, res) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
     }
 };
+
+exports.updateTable = async (req, res) {
+    const tableId = req.params.tableId;
+    if (!tableId) {
+        console.log('No tableId supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No tableId supplied.');
+    }
+
+    const data = Object.assign({}, req.body) || null;
+    if (!data) {
+        console.log('No table info supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No table info supplied.');
+    }
+
+    await Table.updateOne({ _id: tableId }, data);
+    res.status(httpStatus.OK);
+};

@@ -56,11 +56,11 @@ exports.createOrder = async (req, res) => {
         }
 
         Order.create(data)
-			.then(order => { res.status(httpStatus.OK).json(order); })
-			.catch(err => {
-				console.error(err);
-				res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
-			});
+			     .then(order => { res.status(httpStatus.OK).json(order); })
+			     .catch(err => {
+				         console.error(err);
+				         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+			     });
     } catch(err) {
         console.log(err);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
@@ -163,7 +163,7 @@ exports.updateOrderItem = async (req, res) => {
 		console.log('Tried to create empty order item.');
 		res.status(httpStatus.NO_CONTENT).send('Tried to create empty order item.');
     }
-    
+
     const order = await Order.findOne({ _id: orderId }).populate('orderItems');
     if (!order) {
         console.log('Order not found.');
@@ -184,7 +184,7 @@ exports.updateOrderItem = async (req, res) => {
 exports.deleteOrderItem = async (req, res) => {
     const orderId = req.params.orderId;
     const itemId = req.params.itemId;
-    
+
     if (!orderId) {
         console.log('No order ID supplied.');
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order ID supplied.');
