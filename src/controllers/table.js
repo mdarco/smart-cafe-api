@@ -12,6 +12,22 @@ exports.getAllTables = async (req, res) => {
     }
 };
 
+exports.getTable = async (req, res) => {
+    const tableId = req.params.tableId;
+    if (!tableId) {
+        console.log('No tableId supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No tableId supplied.');
+    }
+
+    try {
+        const table = await Table.findOne({ _id: tableId });
+        res.status(httpStatus.OK).json(table);
+    } catch(err) {
+        console.log(err);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
+};
+
 exports.updateTable = async (req, res) => {
     const tableId = req.params.tableId;
     if (!tableId) {
@@ -25,6 +41,11 @@ exports.updateTable = async (req, res) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No table info supplied.');
     }
 
-    await Table.updateOne({ _id: tableId }, data);
-    res.status(httpStatus.OK);
+    try {
+        await Table.updateOne({ _id: tableId }, data);
+        res.status(httpStatus.OK);
+    } catch(err) {
+        console.log(err);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
 };
