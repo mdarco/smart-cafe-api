@@ -98,7 +98,7 @@ exports.deleteOrder = async (req, res) => {
         }
 
         await Order.deleteOne({ _id: orderId });
-        res.status(httpStatus.OK);
+        res.status(httpStatus.OK).send();
     } catch(err) {
         console.log(err);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
