@@ -43,7 +43,7 @@ exports.updateTable = async (req, res) => {
 
     try {
         await Table.updateOne({ _id: tableId }, data);
-        res.status(httpStatus.OK);
+        res.status(httpStatus.OK).send();
     } catch(err) {
         console.log(err);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
