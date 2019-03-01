@@ -31,6 +31,25 @@ exports.getOrdersByDate = async (req, res) => {
     }
 };
 
+exports.getFilteredOrders = async (req, res) => {
+    try {
+        const filter = Object.assign({}, req.body) || null;
+        if (!filter) {
+            getAllOrders(req, res);
+        }
+
+        if (filter.orderDate) {
+          filter.orderDate = {$gt: new Date(filter.orderDate), $lt: new Date(moment(filter.orderDate).add(1, 'days').format('YYYY-MM-DD'))}
+        }
+
+        const orders = await Order.find(filter).sort({ orderDate: -1 }).populate('tableId').populate('orderItems.productId');
+        res.status(httpStatus.OK).json(orders);
+    } catch(err) {
+        console.log(err);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
+};
+
 exports.getOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;

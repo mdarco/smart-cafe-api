@@ -2,6 +2,7 @@ const OrderController = require('../controllers/order');
 
 module.exports = api => {
     api.route('/orders').get(OrderController.getAllOrders);
+    api.route('/orders/filtered').post(OrderController.getFilteredOrders);
     api.route('/orders/by-date/:orderDate').get(OrderController.getOrdersByDate);
     api.route('/orders').post(OrderController.createOrder);
     api.route('/orders/:orderId').get(OrderController.getOrder);
