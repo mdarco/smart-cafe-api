@@ -11,8 +11,16 @@ const config = require('./config');
 // import logger from './utils/logger';
 
 const api = express();
-const io = require('socket.io')(require('http').Server(api));
+const server = require('http').Server(api);
+const io = require('socket.io')(server);
 
+// implement socket.io real-time stuff
+require('./socket-io')(io);
+
+// for preflight requests (enable OPTIONs on all resources)
+api.options('*', cors());
+
+// enable all cors requests
 api.use(cors());
 api.use(compression());
 api.use(bodyParser.urlencoded({ extended: true }));
@@ -52,14 +60,14 @@ require('dotenv').config({ path: './.env' });
 // 	}
 // });
 
-// configure socket.io
-require('./socket-io')(io);
-
 api.get('/', (req, res) => {
 	res.send('SmartCafe API v0.1');
 });
 
-api.listen(config.server.port, err => {
+// VERY IMPORTANT
+// When using socket.io 'server.listen' MUST be used instead of 'api.listen'
+// otherwise, cors errors would be thrown
+server.listen(config.server.port, err => {
 	if (err) {
 		console.error('There was an error while starting the server:');
 		console.error(err);
