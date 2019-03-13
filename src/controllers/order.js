@@ -99,8 +99,10 @@ exports.updateOrder = async (req, res) => {
             console.log('No order update data supplied.');
             res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order update data supplied.');
         }
+        delete data.createdAt;
 
-        const order = await Order.findOneAndUpdate({ _id: orderId }, data);
+        // 'new' flag forces returning of updated order
+        const order = await Order.findOneAndUpdate({ _id: orderId }, data, { new: true });
         res.status(httpStatus.OK).json(order);
     } catch(err) {
         console.log(err);
