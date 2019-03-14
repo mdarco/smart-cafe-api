@@ -15,6 +15,7 @@ const server = require('http').Server(api);
 const io = require('socket.io')(server);
 
 // implement socket.io real-time stuff
+const realTimeService = require('./real-time-service')(io);
 require('./socket-io')(io);
 
 // for preflight requests (enable OPTIONs on all resources)
@@ -79,9 +80,17 @@ server.listen(config.server.port, err => {
 	// establish DB connection
 	require('./utils/db');
 
+	// get all controllers
+	let controllers = new Map();
+	fs.readdirSync(path.join(__dirname, 'controllers')).map(file => {
+		const controller = require('./controllers/' + file)(realTimeService);
+		const controllerName = path.basename(file, '.js');
+		controllers.set(controllerName.charAt(0).toUpperCase() + controllerName.slice(1) + 'Controller', controller);
+	});
+
 	// activate all routes
 	fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
-		require('./routes/' + file)(api);
+		require('./routes/' + file)(api, controllers);
 	});
 });
 

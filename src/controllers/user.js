@@ -2,17 +2,39 @@ const validator = require('validator');
 const httpStatus = require('http-status');
 const User = require('../models/user');
 
-exports.getAllUsers = (req, res) => {
-	UserModel.find({}).sort({ fullName: 1 }).exec(
-		(err, users) => {
-			if (err) {
-				console.error(err);
-				res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
-			} else {
-				res.status(httpStatus.OK).json(users);
+module.exports = (realTimeService) => {
+	const getAllUsers = (req, res) => {
+		UserModel.find({}).sort({ fullName: 1 }).exec(
+			(err, users) => {
+				if (err) {
+					console.error(err);
+					res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+				} else {
+					res.status(httpStatus.OK).json(users);
+				}
 			}
+		);
+	};
+
+	const addUser = (req, res) => {
+		const data = Object.assign({}, req.body) || null;
+		if (!data) {
+			console.log('Tried to create empty user.');
+			res.status(httpStatus.NO_CONTENT).send('Tried to create empty user.');
+		} else {
+			User.create(data)
+				.then(user => { res.status(httpStatus.OK).json(user); })
+				.catch(err => {
+					console.error(err);
+					res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+				});
 		}
-	);
+	};
+
+	return {
+		getAllUsers,
+		addUser
+	}
 };
 
 // exports.getUser = (req, res) => {
@@ -56,21 +78,6 @@ exports.getAllUsers = (req, res) => {
 // 			res.status(422).send(err.errors);
 // 		});
 // };
-
-exports.addUser = (req, res) => {
-	const data = Object.assign({}, req.body) || null;
-	if (!data) {
-		console.log('Tried to create empty user.');
-		res.status(httpStatus.NO_CONTENT).send('Tried to create empty user.');
-	} else {
-		User.create(data)
-			.then(user => { res.status(httpStatus.OK).json(user); })
-			.catch(err => {
-				console.error(err);
-				res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
-			});
-	}
-};
 
 // exports.deleteUser = (req, res) => {
 // 	User.findByIdAndUpdate(

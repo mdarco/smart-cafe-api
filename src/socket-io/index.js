@@ -1,9 +1,14 @@
-module.exports = (io) => {
+module.exports = (io, realTimeService) => {
   io.on('connection', socket => {
-      console.log('Client connected..');
+    console.log('New client connected: ID = ', socket.id);
 
-      socket.on('category:opened', message => {
-        console.log('Client clicked on category ' + message);
-      });
+    socket.on('login:success', payload => {
+      console.log('Client logged in with table ID: ' + payload.tableId);
+      realTimeService.socketJoin(socket, payload.tableId);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Client disconnected: ID = ' + socket.id);
+    });
   });
 };
