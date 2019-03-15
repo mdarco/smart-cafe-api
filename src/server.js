@@ -6,6 +6,7 @@ const cors = require('cors');
 // const winston = require('winston');
 const compression = require('compression');
 // const expressWinston	= require('express-winston');
+const changeCase = require('change-case');
 
 const config = require('./config');
 // import logger from './utils/logger';
@@ -16,7 +17,7 @@ const io = require('socket.io')(server);
 
 // implement socket.io real-time stuff
 const realTimeService = require('./real-time-service')(io);
-require('./socket-io')(io);
+require('./socket-io')(io, realTimeService);
 
 // for preflight requests (enable OPTIONs on all resources)
 api.options('*', cors());
@@ -84,8 +85,8 @@ server.listen(config.server.port, err => {
 	let controllers = new Map();
 	fs.readdirSync(path.join(__dirname, 'controllers')).map(file => {
 		const controller = require('./controllers/' + file)(realTimeService);
-		const controllerName = path.basename(file, '.js');
-		controllers.set(controllerName.charAt(0).toUpperCase() + controllerName.slice(1) + 'Controller', controller);
+		const controllerName = changeCase.pascalCase(path.basename(file, '.js')) + 'Controller';
+		controllers.set(controllerName, controller);
 	});
 
 	// activate all routes
