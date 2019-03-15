@@ -7,6 +7,13 @@ module.exports = (io, realTimeService) => {
       realTimeService.socketJoin(socket, payload._id);
     });
 
+    socket.on('logout', () => {
+      realTimeService.socketLeaveAllRooms(socket);
+      realTimeService.removeSocket(socket);
+      realTimeService.disconnectSocket(socket);
+      console.log(`Client ${socket.id} logged out`);
+    });
+
     socket.on('disconnect', () => {
       console.log('Client disconnected: ID = ' + socket.id);
     });

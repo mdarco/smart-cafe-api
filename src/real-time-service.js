@@ -11,13 +11,27 @@ module.exports = (io) => {
   };
 
   const removeSocket = (socket) => {
-    console.log(`Removed socket ${socket.id}`);
     _sockets = _sockets.filter(s => s.id !== socket.id);
+    console.log(`Removed socket ${socket.id}`);
+  };
+
+  const disconnectSocket = (socket) => {
+    socket.disconnect();
+    console.log(`Socket ${socket.id} disconnected`);
   };
 
   const socketJoin = (socket, roomId) => {
     console.log(`Socket ${socket.id} joined room ${roomId}`);
     socket.join(roomId);
+  };
+
+  const socketLeaveAllRooms = (socket) => {
+    const rooms = Object.keys(socket.rooms).filter(room => room !== socket.id);
+    console.log('ROOMS TO LEAVE', rooms);
+    rooms.forEach(room => {
+      socket.leave(room);
+    });
+    console.log(`Socket ${socket.id} left all rooms`);
   };
 
   const emit = (eventName, roomId, message) => {
@@ -42,7 +56,9 @@ module.exports = (io) => {
     getAllConnectedSockets,
     addSocket,
     removeSocket,
+    disconnectSocket,
     socketJoin,
+    socketLeaveAllRooms,
     emit,
     broadcast
   }
