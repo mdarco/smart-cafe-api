@@ -42,13 +42,13 @@ module.exports = (io) => {
     });
 
     if (socket) {
-      console.log(`Socket is emitting message ${message} for room ${roomId}`);
+      console.log(`Socket is emitting event [${eventName}] with message "${message}" for room ${roomId}`);
       socket.emit(eventName, message);
     }
   };
 
   const broadcast = (eventName, message) => {
-    console.log(`Server is broadcasting message: ${message}`);
+    console.log(`Server is broadcasting event [${eventName}] with message "${message}"`);
     io.emit(eventName, message);
   };
 
