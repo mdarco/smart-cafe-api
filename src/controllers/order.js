@@ -68,47 +68,58 @@ module.exports = (realTimeService) => {
   };
 
   const createOrder = async (req, res) => {
-      try {
-          const data = Object.assign({}, req.body) || null;
-          if (!data) {
-              console.log('No order supplied.');
-              res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order supplied.');
-          }
-
-          Order.create(data)
-  			     .then(order => { res.status(httpStatus.OK).json(order); })
-  			     .catch(err => {
-  				         console.error(err);
-  				         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
-  			     });
-      } catch(err) {
-          console.log(err);
-          res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    try {
+      const data = Object.assign({}, req.body) || null;
+      if (!data) {
+        console.log('No order supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order supplied.');
       }
+
+      Order.create(data)
+        .then(order => {
+          // notify in real-time
+          // realTimeService.emit('orders::new-order', data.tableId, order);
+          realTimeService.broadcast('orders::new-order', order);
+
+          res.status(httpStatus.OK).json(order);
+        })
+        .catch(err => {
+          console.error(err);
+          res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+        });
+    } catch(err) {
+      console.log(err);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
   };
 
   const updateOrder = async (req, res) => {
-      try {
-          const orderId = req.params.orderId;
-          if (!orderId) {
-              console.log('No orderId supplied.');
-              res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No orderId supplied.');
-          }
-
-          const data = Object.assign({}, req.body) || null;
-          if (!data) {
-              console.log('No order update data supplied.');
-              res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order update data supplied.');
-          }
-          delete data.createdAt;
-
-          // 'new' flag forces returning of updated order
-          const order = await Order.findOneAndUpdate({ _id: orderId }, data, { new: true });
-          res.status(httpStatus.OK).json(order);
-      } catch(err) {
-          console.log(err);
-          res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    try {
+      const orderId = req.params.orderId;
+      if (!orderId) {
+        console.log('No orderId supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No orderId supplied.');
       }
+
+      const data = Object.assign({}, req.body) || null;
+      if (!data) {
+        console.log('No order update data supplied.');
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send('No order update data supplied.');
+      }
+      delete data.createdAt;
+
+      // 'new' flag forces returning of updated order
+      const order = await Order.findOneAndUpdate({ _id: orderId }, data, { new: true });
+
+      // notify in real-time
+      // realTimeService.emit('orders::updated-order', data.tableId, order);
+      realTimeService.broadcast('orders::updated-order', order);
+
+      res.status(httpStatus.OK).json(order);
+    } catch(err) {
+      console.log(err);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
   };
 
   const deleteOrder = async (req, res) => {
